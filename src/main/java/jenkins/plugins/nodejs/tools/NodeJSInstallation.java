@@ -208,7 +208,7 @@ public class NodeJSInstallation extends ToolInstallation implements EnvironmentS
 
         @Override
         public List<? extends ToolInstaller> getDefaultInstallers() {
-            return Collections.singletonList(new NodeJSInstaller(null, null, 72));
+            return Collections.singletonList(new NodeJSInstaller(null, null, 72, null));
         }
 
         /*

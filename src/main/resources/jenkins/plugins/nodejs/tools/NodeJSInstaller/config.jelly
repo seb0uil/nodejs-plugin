@@ -51,4 +51,8 @@ THE SOFTWARE.
     <f:entry title="${%npmPackagesRefreshHours.title}" description="${%npmPackagesRefreshHours.description}">
         <f:textbox field="npmPackagesRefreshHours" default="72" />
     </f:entry>
+
+    <f:entry title="${%mirrorUrl}" description="${%mirrorUrl.description}">
+        <f:textbox field="mirrorUrl" />
+    </f:entry>
 </j:jelly>

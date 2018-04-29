@@ -90,16 +90,18 @@ public class NodeJSInstaller extends DownloadFromUrlInstaller {
     private Platform platform;
     private CPU cpu;
     private boolean force32Bit;
+    private String mirrorUrl;
 
     @DataBoundConstructor
-    public NodeJSInstaller(String id, String npmPackages, long npmPackagesRefreshHours) {
+    public NodeJSInstaller(String id, String npmPackages, long npmPackagesRefreshHours, String mirrorUrl) {
         super(id);
         this.npmPackages = Util.fixEmptyAndTrim(npmPackages);
         this.npmPackagesRefreshHours = npmPackagesRefreshHours;
+        this.mirrorUrl = Util.fixEmptyAndTrim(mirrorUrl);
     }
 
-    public NodeJSInstaller(String id, String npmPackages, long npmPackagesRefreshHours, boolean force32bit) {
-        this(id, npmPackages, npmPackagesRefreshHours);
+    public NodeJSInstaller(String id, String npmPackages, long npmPackagesRefreshHours, String mirrorUrl, boolean force32bit) {
+        this(id, npmPackages, npmPackagesRefreshHours, mirrorUrl);
         this.force32Bit = force32bit;
     }
 
@@ -116,6 +118,9 @@ public class NodeJSInstaller extends DownloadFromUrlInstaller {
         InstallerPathResolver installerPathResolver = InstallerPathResolver.Factory.findResolverFor(installable);
         String relativeDownloadPath = installerPathResolver.resolvePathFor(installable.id, platform, cpu);
         installable.url += relativeDownloadPath;
+        if (StringUtils.isNotBlank(this.mirrorUrl)) {
+            installable.url = installable.url.replaceAll("^https?:\\/\\/[^\\/]*\\/", mirrorUrl);
+        }
         return installable;
     }
 
@@ -329,6 +334,14 @@ public class NodeJSInstaller extends DownloadFromUrlInstaller {
 
     public Long getNpmPackagesRefreshHours() {
         return npmPackagesRefreshHours;
+    }
+
+    public String getMirrorUrl() {
+        return mirrorUrl;
+    }
+
+    public void setMirrorUrl(String mirrorUrl) {
+        this.mirrorUrl = mirrorUrl;
     }
 
     public boolean isForce32Bit() {
